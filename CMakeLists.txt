@@ -9,4 +9,4 @@ add_executable(comp30023_2021_project_2_master
         helper1.c
         helper1.h
         main.c
-        phase1.c)
+        phase1.c test_sender.c)
