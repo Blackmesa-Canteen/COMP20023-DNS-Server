@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
     /**
      * Get Query Size
      * */
+    dns_message_t* incoming_query_message = get_dns_message_ptr(fd);
     // size_head_buffer for first two bytes
     unsigned char size_head_buffer[3];
 
@@ -182,12 +183,18 @@ int main(int argc, char *argv[]) {
 
     /**
    *
-   * Debug: using file to simulate incoming request
+   * Debug: using file to simulate response from dns
    *
    * */
+    fd = open("1.comp30023.res.raw", 0);
+    if (fd == -1) {
+        printf("error open file \n");
+        exit(EXIT_FAILURE);
+    }
 
     return 0;
 }
+
 
 
 
