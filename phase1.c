@@ -4,13 +4,19 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <time.h>
 
 #include "network_handler.h"
 #include "utils.h"
 #include "message_handler.h"
 
 int main(int argc, char *argv[]) {
+
+    /**
+     * DEBUG file name
+     * */
+    char* request_file_name = "1.comp30023.a.req.raw";
+    char* response_file_name = "none.comp30023.res.raw";
+
     char *port_number = "8053";
     struct addrinfo *dns_server_info;
     int listen_socket_fd, dns_socket_fd;
@@ -28,169 +34,107 @@ int main(int argc, char *argv[]) {
     listen_socket_fd = get_listening_socket_fd(port_number);
 
     /**
-     *
      * Debug: using file to simulate incoming request
-     *
      * */
     int fd;
-    fd = open("1.comp30023.req.raw", 0);
+    fd = open(request_file_name, 0);
     if (fd == -1) {
         printf("error open file \n");
         exit(EXIT_FAILURE);
     }
 
     /**
-     * Get Query Size
+     * Get Query message
      * */
-    dns_message_t* incoming_query_message = get_dns_message_ptr(fd);
-    // size_head_buffer for first two bytes
-    unsigned char size_head_buffer[3];
+    int query_type;
+    /* need to be freed */
+    unsigned char* domain_name;
+    dns_message_t *incoming_query_message = get_dns_message_ptr(fd);
+    /* close fd */
+    close(fd);
 
-    // read two bytes from fd
-    read(fd, size_head_buffer, 2);
-
-    // get message_size from binary size_head_buffer
-    int message_size = (size_head_buffer[0] << 8 | size_head_buffer[1]);
-
-    printf("size: %d\n", message_size);
+    /* parse the request message*/
+    parse_dns_request_message_ptr(incoming_query_message, &query_type, &domain_name);
 
     /**
-     * Handle query message
-     * Except the head two bytes
-     *
-     * */
-//    unsigned char incoming_msg_buffer[message_size + 1];
-    unsigned char incoming_msg_buffer[message_size + 1];
-    // point ptr to the head of incoming_msg_buffer
-    unsigned char *ptr = incoming_msg_buffer;
-//    int n = read(fd, incoming_msg_buffer, message_size);
-    int n = read(fd, incoming_msg_buffer, message_size);
-    close(fd); /* close fd */
-    int question_account, answer_account, query_type;
-    if (n < 0) {
-        perror("read incoming_msg_buffer");
-        exit(EXIT_FAILURE);
-    }
-
-    /* skip header ID*/
-    ptr += 2;
-    /* skip header configurations
-     * R code here is important for returning to customer.
-     * */
-    ptr += 2;
-    /* get QDCOUNT */
-    question_account = ntohs(*((unsigned short *) ptr));
-    printf("question account: %d\n", question_account);
-    ptr += 2;
-    /* get ANCOUNT */
-    answer_account = ntohs(*((unsigned short *) ptr));
-    ptr += 2;
-    /* skip NSCOUNT ARCOUNT */
-    ptr += 4;
-
-    /* In Question section */
-    /* get all questions from a query */
-    /** we can assume that there is only one question */
-    unsigned char **full_domain_buffer_list = (unsigned char **) calloc(question_account, sizeof(unsigned char *));
-    unsigned char **full_domain_buffer_list_ptr = full_domain_buffer_list;
-
-    /* get all questions query type*/
-    int* domain_query_type_list = (int*) calloc(question_account, sizeof(int));
-    int* domain_query_type_list_ptr = domain_query_type_list;
-
-    for (int i = 0; i < question_account; i++) {
-
-        unsigned char *full_domain_buffer = (unsigned char *) calloc(128, sizeof(unsigned char));
-        unsigned char *full_ptr = full_domain_buffer;
-        while (1) {
-            int part_len = (int) ptr[0];
-            ptr++;
-            for (int j = 0; j < part_len; j++) {
-                full_ptr[0] = ptr[0];
-                ptr++;
-                full_ptr++;
-            }
-            if (part_len == 0) {
-                // end for one question
-                // change the last `.` into `/0`
-                full_ptr--;
-                full_ptr[0] = '\0';
-                printf("%s\n", full_domain_buffer);
-
-                full_domain_buffer_list_ptr[0] = full_domain_buffer;
-                full_domain_buffer_list_ptr++;
-                break;
-            }
-            full_ptr[0] = '.';
-            full_ptr++;
-        }
-        /* Qtype: 28 means AAAA */
-        /* Store query type into a list*/
-        query_type = ntohs(*((unsigned short *) ptr));
-        printf("query type: %d\n", query_type);
-        domain_query_type_list_ptr[0] = query_type;
-        domain_query_type_list_ptr++;
-        ptr += 2;
-        /* skip Qclass */
-        ptr += 2;
-    }
-    /**
-     * End of question section
-     * */
-    /**
-    * End of retrieve info from the customer's query,
-     * ready to do forward;
-    * */
-
-    /**
-     * Reconstruct original query
+     * judge whether original_query should be send to DNS
      */
-    unsigned char* original_query = (unsigned char*) calloc(message_size+2, sizeof (unsigned char));
-     unsigned char* original_query_ptr = original_query;
-     for(int i = 0; i < 2; i++) {
-         original_query_ptr[0] = size_head_buffer[i];
-         original_query_ptr++;
-     }
-
-     for(int i = 0; i < message_size; i++) {
-         original_query_ptr[0] = incoming_msg_buffer[i];
-         original_query_ptr++;
-     }
-
-//     for(int i = 0; i < message_size + 2; i++) {
-//         printf("original query: %x\n", original_query[i]);
-//     }
-
-     /**
-      * judge whether original_query should be send to DNS
-      */
-      if(domain_query_type_list[0] != 28) {
-          // if first query is not AAAA
-          // we respond with Rcode 4 (“Not Implemented”) by our own
-          // and log “<timestamp> unimplemented request”
-          printf("not AAAA request\n");
-          // find the RCODE part
-          doLog("unimplemented request");
+    if (query_type != 28) {
+        // if first query is not AAAA
+        // we respond with Rcode 4 (“Not Implemented”) by our own
+        // and log “<timestamp> unimplemented request”
+        printf("not AAAA request\n");
+        // find the RCODE part
+        doLog("unimplemented request");
 
 
-      } else {
-          // forward to DNS server, then get query result
-          char log_str[256] = "requested ";
-          strcat(log_str, (char*)full_domain_buffer_list[0]);
-          doLog(log_str);
-      }
-
+    } else {
+        // forward to DNS server, then get query result
+        char log_str[256] = "requested ";
+        strcat(log_str, (char *) domain_name);
+        doLog(log_str);
+    }
 
     /**
    *
    * Debug: using file to simulate response from dns
    *
    * */
-    fd = open("1.comp30023.res.raw", 0);
+    fd = open(response_file_name, 0);
     if (fd == -1) {
         printf("error open file \n");
         exit(EXIT_FAILURE);
     }
+
+    /**
+     * Get DNS server's response
+     */
+    dns_message_t *dns_response_message = get_dns_message_ptr(fd);
+    close(fd);
+
+    /* get answer info list */
+    char* *ip_text_list = NULL;
+    int* type_list = NULL;
+    int* size_list = NULL;
+    int answer_num = 0;
+
+    parse_dns_response_message_ptr(dns_response_message, &answer_num, &ip_text_list, &type_list, &size_list);
+
+    /**
+     * judge the first answer type whether is AAAA field
+     * */
+    if(type_list != NULL && type_list[0] == 28) {
+        //if the field is ipv6(AAAA)
+        char log_str[256] = "";
+        strcat(log_str, (char *) domain_name);
+        strcat(log_str, " is at ");
+        strcat(log_str, ip_text_list[0]);
+        doLog(log_str);
+    } else {
+        /**
+         * If the ﬁrst answer in the response is not a AAAA ﬁeld,
+         * then do not print a log entry (for any answer in the response)
+         * */
+    }
+
+    /**
+     * Debug: print all text ip
+     */
+    for(int i = 0; i < answer_num; i++) {
+        printf("answer %d: %s\n", i, ip_text_list[i]);
+    }
+
+    free_dns_message_ptr(incoming_query_message);
+    free_dns_message_ptr(dns_response_message);
+    free(domain_name);
+    for(int i = 0; i < answer_num; i++) {
+        free(ip_text_list[i]);
+        ip_text_list[i] = NULL;
+        free(ip_text_list);
+        ip_text_list = NULL;
+    }
+    free(type_list);
+    free(size_list);
 
     return 0;
 }

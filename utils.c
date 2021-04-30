@@ -7,7 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <time.h>
+#include <sys/time.h>
 
 void doLog(char* message) {
     int i = 0;
@@ -21,10 +21,10 @@ void doLog(char* message) {
     char time_str[sizeof ("2021-04-24T05:12:32+0000")];
     time_t now;
     time(&now);
-    strftime(time_str, sizeof time_str, "%FT%T%z", gmtime(&now));
+    struct tm *tm_now = localtime(&now);
+    strftime(time_str, sizeof time_str, "%FT%T%z", tm_now);
 
     fprintf(stream, "%s ", time_str);
-
 
     while(message[i]) {
         fputc(message[i], stream);
