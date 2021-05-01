@@ -8,6 +8,7 @@
 #include "network_handler.h"
 #include "utils.h"
 #include "message_handler.h"
+#include "my_response_handler.h"
 
 // DNS default port 53
 int main(int argc, char *argv[]) {
@@ -15,9 +16,10 @@ int main(int argc, char *argv[]) {
     /**
      * DEBUG file name
      * */
-    char* request_file_name = "cloudflare.com.req.raw";
+    char* request_file_name = "1.comp30023.req.raw";
     char* response_file_name = "cloudflare.com.res.raw";
 
+    // this server's listening port
     char *port_number = "8053";
     struct addrinfo *dns_server_info, *this_server_info;
     int listen_socket_fd, dns_socket_fd;
@@ -27,14 +29,17 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    /** get dns connection */
+    /** get address information
+     *  Can be reused ?
+     * */
     printf("DNS：%s, %s\n",argv[1], argv[2] );
     dns_server_info = get_dns_server_info(argv[1], argv[2]);
-    dns_socket_fd = get_dns_connection(dns_server_info);
-
-    /** setup localhost listening */
     this_server_info = get_this_server_info(port_number);
+
+
+    /** create socket file descriptors */
     listen_socket_fd = get_listening_socket_fd(this_server_info);
+    dns_socket_fd = get_dns_connection(dns_server_info);
 
     /**
      * Debug: using file to simulate incoming request
@@ -53,7 +58,6 @@ int main(int argc, char *argv[]) {
     /* need to be freed */
     unsigned char* domain_name;
     dns_message_t *incoming_query_message = get_dns_message_ptr(fd);
-    freeaddrinfo(this_server_info);
     /* close fd */
     close(fd);
 
@@ -71,6 +75,9 @@ int main(int argc, char *argv[]) {
         // find the RCODE part
         doLog("unimplemented request");
 
+        /**
+         * We need send our own response now, after send the response, continue the great loop
+         * */
 
     } else {
         // forward to DNS server, then get query result
@@ -91,7 +98,9 @@ int main(int argc, char *argv[]) {
 //    }
 
     /**
-     * Use real response from 8.8.8.8 DNS
+     * Use real response from DNS server
+     * example: 8.8.8.8 53
+     *
      */
     // send message to real DNS server
     int n = write(dns_socket_fd, incoming_query_message->original_msg, incoming_query_message->msg_size + 2);
@@ -108,7 +117,6 @@ int main(int argc, char *argv[]) {
 //    close(fd);
     // from real server
     dns_message_t *dns_response_message = get_dns_message_ptr(dns_socket_fd);
-    freeaddrinfo(dns_server_info);
     close(dns_socket_fd);
 
     /* get answer info list */
@@ -143,6 +151,20 @@ int main(int argc, char *argv[]) {
         printf("answer %d: %s\n", i, ip_text_list[i]);
     }
 
+    /**
+     * Debug: print unimplemented response
+     */
+
+    unsigned char* unimplemented_response = generate_not_implemented_response(incoming_query_message);
+    printf("---------------------\n");
+    for(int i = 0; i < 46; i++) {
+        printf("%x\n", unimplemented_response[i]);
+    }
+
+
+    /**
+     * Free things for one query session
+     */
     free_dns_message_ptr(incoming_query_message);
     free_dns_message_ptr(dns_response_message);
     free(domain_name);
@@ -158,6 +180,10 @@ int main(int argc, char *argv[]) {
     free(size_list);
     size_list = NULL;
 
+
+    // at the end of the program
+    freeaddrinfo(this_server_info);
+    freeaddrinfo(dns_server_info);
 
     return 0;
 }
