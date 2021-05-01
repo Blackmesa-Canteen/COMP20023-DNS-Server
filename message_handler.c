@@ -23,7 +23,11 @@ dns_message_t *get_dns_message_ptr(int fd) {
     unsigned char *size_head_buffer = (unsigned char *) calloc(2, sizeof(unsigned char));
 
     // read two bytes from fd
-    read(fd, size_head_buffer, 2);
+    int n = read(fd, size_head_buffer, 2);
+    if (n < 0) {
+        perror("read dns_head_buffer_error");
+        exit(EXIT_FAILURE);
+    }
 
     // get message_size from binary size_head_buffer
     int message_size = (size_head_buffer[0] << 8 | size_head_buffer[1]);
@@ -36,7 +40,7 @@ dns_message_t *get_dns_message_ptr(int fd) {
      *
      * */
     unsigned char *incoming_msg_buffer = (unsigned char *) calloc(message_size, sizeof(unsigned char));
-    int n = read(fd, incoming_msg_buffer, message_size);
+    n = read(fd, incoming_msg_buffer, message_size);
     if (n < 0) {
         perror("read dns_msg_buffer");
         exit(EXIT_FAILURE);
@@ -210,7 +214,7 @@ void parse_dns_response_message_ptr(dns_message_t *message_t_ptr,
         /* get answer type */
         unsigned short answer_type = ntohs(*((unsigned short *) ptr));
         type_list_ptr[0] = answer_type;
-        printf("first response type: %d\n", type_list_ptr[0]);
+        printf("response type: %d\n", type_list_ptr[0]);
         type_list_ptr++;
         ptr += 2;
 
@@ -239,7 +243,7 @@ void parse_dns_response_message_ptr(dns_message_t *message_t_ptr,
 //                }
             // transfer ipv6
             inet_ntop(AF_INET6, ip_v6_address, ip_v6_text_address, INET6_ADDRSTRLEN);
-            printf("first ipv6 address: %s\n", ip_v6_text_address);
+            printf("ipv6 address: %s\n", ip_v6_text_address);
 
             free(ip_v6_address);
 

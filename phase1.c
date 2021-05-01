@@ -9,13 +9,14 @@
 #include "utils.h"
 #include "message_handler.h"
 
+// DNS default port 53
 int main(int argc, char *argv[]) {
 
     /**
      * DEBUG file name
      * */
-    char* request_file_name = "1.comp30023.a.req.raw";
-    char* response_file_name = "none.comp30023.res.raw";
+    char* request_file_name = "cloudflare.com.req.raw";
+    char* response_file_name = "cloudflare.com.res.raw";
 
     char *port_number = "8053";
     struct addrinfo *dns_server_info;
@@ -27,6 +28,7 @@ int main(int argc, char *argv[]) {
     }
 
     /** get dns connection */
+    printf("DNS：%s, %s\n",argv[1], argv[2] );
     dns_server_info = get_dns_server_info(argv[1], argv[2]);
     dns_socket_fd = get_dns_connection(dns_server_info);
 
@@ -80,17 +82,31 @@ int main(int argc, char *argv[]) {
    * Debug: using file to simulate response from dns
    *
    * */
-    fd = open(response_file_name, 0);
-    if (fd == -1) {
-        printf("error open file \n");
+//    fd = open(response_file_name, 0);
+//    if (fd == -1) {
+//        printf("error open file \n");
+//        exit(EXIT_FAILURE);
+//    }
+
+    /**
+     * Use real response from 8.8.8.8 DNS
+     */
+    // send message to real DNS server
+    int n = write(dns_socket_fd, incoming_query_message->original_msg, incoming_query_message->msg_size + 2);
+    if(n < 0) {
+        perror("send to DNS server socket error");
         exit(EXIT_FAILURE);
     }
 
     /**
      * Get DNS server's response
      */
-    dns_message_t *dns_response_message = get_dns_message_ptr(fd);
-    close(fd);
+     // from file
+//    dns_message_t *dns_response_message = get_dns_message_ptr(fd);
+//    close(fd);
+    // from real server
+    dns_message_t *dns_response_message = get_dns_message_ptr(dns_socket_fd);
+    close(dns_socket_fd);
 
     /* get answer info list */
     char* *ip_text_list = NULL;
@@ -130,11 +146,14 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < answer_num; i++) {
         free(ip_text_list[i]);
         ip_text_list[i] = NULL;
-        free(ip_text_list);
-        ip_text_list = NULL;
+
     }
+    free(ip_text_list);
+    ip_text_list = NULL;
     free(type_list);
+    type_list = NULL;
     free(size_list);
+    size_list = NULL;
 
     return 0;
 }
