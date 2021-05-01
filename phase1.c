@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     char* response_file_name = "cloudflare.com.res.raw";
 
     char *port_number = "8053";
-    struct addrinfo *dns_server_info;
+    struct addrinfo *dns_server_info, *this_server_info;
     int listen_socket_fd, dns_socket_fd;
 
     if (argc < 3) {
@@ -33,7 +33,8 @@ int main(int argc, char *argv[]) {
     dns_socket_fd = get_dns_connection(dns_server_info);
 
     /** setup localhost listening */
-    listen_socket_fd = get_listening_socket_fd(port_number);
+    this_server_info = get_this_server_info(port_number);
+    listen_socket_fd = get_listening_socket_fd(this_server_info);
 
     /**
      * Debug: using file to simulate incoming request
@@ -52,6 +53,7 @@ int main(int argc, char *argv[]) {
     /* need to be freed */
     unsigned char* domain_name;
     dns_message_t *incoming_query_message = get_dns_message_ptr(fd);
+    freeaddrinfo(this_server_info);
     /* close fd */
     close(fd);
 
@@ -106,6 +108,7 @@ int main(int argc, char *argv[]) {
 //    close(fd);
     // from real server
     dns_message_t *dns_response_message = get_dns_message_ptr(dns_socket_fd);
+    freeaddrinfo(dns_server_info);
     close(dns_socket_fd);
 
     /* get answer info list */
@@ -154,6 +157,7 @@ int main(int argc, char *argv[]) {
     type_list = NULL;
     free(size_list);
     size_list = NULL;
+
 
     return 0;
 }

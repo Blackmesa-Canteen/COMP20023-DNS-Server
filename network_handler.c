@@ -12,24 +12,10 @@
  * @param port "8053"
  * @return listened socket fd
  */
-int get_listening_socket_fd(char *port) {
-    struct addrinfo listen_hints, *this_server_info;
-    int re, listen_socket_fd, dns_socket_fd;
-
-    // create address for this server to listen to
-    memset(&listen_hints, 0, sizeof listen_hints);
-    // ip v4
-    listen_hints.ai_family = AF_INET;
-    // TCP
-    listen_hints.ai_socktype = SOCK_STREAM;
-    // listen accept
-    listen_hints.ai_flags = AI_PASSIVE;
-
-    // set address info for listening
-    if (getaddrinfo(NULL, port, &listen_hints, &this_server_info) < 0) {
-        perror("getaddrinfo for this server");
-        exit(EXIT_FAILURE);
-    }
+int get_listening_socket_fd(struct addrinfo *this_server_info) {
+    struct addrinfo *rp;
+    int listen_socket_fd;
+    int re;
 
     // create listening socket
     listen_socket_fd = socket(this_server_info->ai_family, this_server_info->ai_socktype,
@@ -83,6 +69,33 @@ struct addrinfo* get_dns_server_info(char* host, char* port) {
     }
 
     return dns_server_info;
+}
+
+/**
+ * get this server's connection info
+ * @param port local part
+ * @return addrinfo*
+ */
+struct addrinfo* get_this_server_info(char* port) {
+    struct addrinfo listen_hints, *this_server_info;
+    int re, listen_socket_fd, dns_socket_fd;
+
+    // create address for this server to listen to
+    memset(&listen_hints, 0, sizeof listen_hints);
+    // ip v4
+    listen_hints.ai_family = AF_INET;
+    // TCP
+    listen_hints.ai_socktype = SOCK_STREAM;
+    // listen accept
+    listen_hints.ai_flags = AI_PASSIVE;
+
+    // set address info for listening
+    if (getaddrinfo(NULL, port, &listen_hints, &this_server_info) < 0) {
+        perror("getaddrinfo for this server");
+        exit(EXIT_FAILURE);
+    }
+
+    return this_server_info;
 }
 
 
