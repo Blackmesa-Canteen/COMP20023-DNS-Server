@@ -1,35 +1,22 @@
-# Sample Makefile
-# CC - compiler
-# OBJ - compiled source files that should be linked
-# COPT - compiler flags
-# BIN - binary
-CC=clang
-OBJ=helper1.o
-COPT=-Wall -Wpedantic -g
-BIN_PHASE1=phase1
-BIN_PHASE2=dns_query
+# Created by Xiaotian Li on May 2, 2021
+# A make file for Project 2
+dns_svr: main.o message_handler.o my_response_handler.o network_handler.o utils.o
+	gcc -o dns_svr main.o message_handler.o my_response_handler.o network_handler.o utils.o
 
-# Running "make" with no argument will make the first target in the file
-all: $(BIN_PHASE1) $(BIN_PHASE2)
+main.o: main.c my_response_handler.h message_handler.h network_handler.h utils.h
+	gcc -c -Wall main.c
 
-# Rules of the form
-#     target_to_be_made : dependencies_to_be_up-to-date_first
-#     <tab>commands_to_make_target
-# (Note that spaces will not work.)
+my_response_handler.o: my_response_handler.c my_response_handler.h message_handler.h
+	gcc -c -Wall my_response_handler.c
 
-$(BIN_PHASE2): main.c $(OBJ)
-	$(CC) -o $(BIN_PHASE2) main.c $(OBJ) $(COPT)
+message_handler.o: message_handler.c message_handler.h
+	gcc -c -Wall message_handler.c
 
-$(BIN_PHASE1): ../老师给的/project-2-master/phase1.c $(OBJ)
-	$(CC) -o $(BIN_PHASE1) phase1.c $(OBJ) $(COPT)
+network_handler.o: network_handler.c network_handler.h
+	gcc -c -Wall network_handler.c
 
-# Wildcard rule to make any  .o  file,
-# given a .c and .h file with the same leading filename component
-%.o: %.c %.h
-	$(CC) -c $< $(COPT) -g
-
-format:
-	clang-format -i *.c *.h
+utils.o: utils.c utils.h
+	gcc -c -Wall utils.c
 
 clean:
-	# implement this, to remove $(BIN_PHASE[12]) and any .o files
+	rm -f dns_svr dns_svr.log *.o

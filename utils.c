@@ -7,8 +7,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/time.h>
+#include <time.h>
 
+/**
+ * Do some log things
+ * @param message
+ */
 void doLog(char* message) {
     int i = 0;
     FILE* stream = fopen("dns_svr.log", "a");

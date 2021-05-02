@@ -32,6 +32,11 @@ unsigned char GOOD_RESPONSE_HEADER_CONFIGURE[2] = {0x81, 0x80};
 /** DNS message's header size is 12 bytes*/
 int HEADER_SIZE = 12;
 
+/**
+ * Return an implemented response to the client
+ * @param request_message_t_ptr
+ * @return complete tcp DNS message with size head
+ */
 unsigned char* generate_not_implemented_response(dns_message_t *request_message_t_ptr) {
     unsigned char* ptr = NULL;
 
@@ -123,9 +128,5 @@ unsigned char* generate_not_implemented_response(dns_message_t *request_message_
     free(message_question);
 
     return response;
-}
-
-void purify_pure_AAAA_response(dns_message_t *dns_response_message_t_ptr) {
-
 }
 
