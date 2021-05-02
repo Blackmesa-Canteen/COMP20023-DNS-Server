@@ -4,3 +4,8 @@ phase1
 phase1.exe
 vgcore.*
 /cmake-build-debug/
+CMakeLists.txt
+packets
+visible
+cloudflare.com.req.raw
+1.comp30023.req.raw

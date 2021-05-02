@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
      * DEBUG file name
      * */
     char* request_file_name = "cloudflare.com.req.raw";
-    char* response_file_name = "cloudflare.com.res.raw";
+    //char* response_file_name = "cloudflare.com.res.raw";
 
     // this server's listening port
     char *port_number = "8053";

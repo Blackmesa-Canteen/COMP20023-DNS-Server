@@ -13,7 +13,6 @@
  * @return listened socket fd
  */
 int get_listening_socket_fd(struct addrinfo *this_server_info) {
-    struct addrinfo *rp;
     int listen_socket_fd;
     int re;
 
@@ -78,7 +77,6 @@ struct addrinfo* get_dns_server_info(char* host, char* port) {
  */
 struct addrinfo* get_this_server_info(char* port) {
     struct addrinfo listen_hints, *this_server_info;
-    int re, listen_socket_fd, dns_socket_fd;
 
     // create address for this server to listen to
     memset(&listen_hints, 0, sizeof listen_hints);
