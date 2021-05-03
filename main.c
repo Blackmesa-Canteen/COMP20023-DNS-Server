@@ -24,6 +24,10 @@ int main(int argc, char *argv[]) {
     struct addrinfo *dns_server_info, *this_server_info;
     int listen_socket_fd, dns_socket_fd;
 
+    struct sockaddr_storage client_addr;
+    socklen_t client_addr_size;
+    int new_socket_fd;
+
     if (argc < 3) {
         fprintf(stderr, "usage %s hostname port for dns\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -42,10 +46,20 @@ int main(int argc, char *argv[]) {
     /**
      * Debug: using file to simulate incoming request
      * */
-    int fd;
-    fd = open(request_file_name, 0);
-    if (fd == -1) {
-        printf("error open file \n");
+//    int fd;
+//    fd = open(request_file_name, 0);
+//    if (fd == -1) {
+//        printf("error open file \n");
+//        exit(EXIT_FAILURE);
+//    }
+    /**
+     * Use real request from client
+     */
+    // Get back a new file descriptor to communicate on
+    client_addr_size = sizeof client_addr;
+    new_socket_fd = accept(listen_socket_fd, (struct sockaddr*)&client_addr, &client_addr_size);
+    if(new_socket_fd < 0) {
+        perror("accept from client");
         exit(EXIT_FAILURE);
     }
 
@@ -55,9 +69,14 @@ int main(int argc, char *argv[]) {
     int query_type;
     /* need to be freed */
     unsigned char* domain_name;
-    dns_message_t *incoming_query_message = get_dns_message_ptr(fd);
+//    dns_message_t *incoming_query_message = get_dns_message_ptr(fd);
+//    /* close fd */
+//    close(fd);
+
+    dns_message_t *incoming_query_message = get_dns_message_ptr(new_socket_fd);
+    
     /* close fd */
-    close(fd);
+    close(new_socket_fd);
 
     /* parse the request message*/
     parse_dns_request_message_ptr(incoming_query_message, &query_type, &domain_name);
@@ -192,6 +211,7 @@ int main(int argc, char *argv[]) {
     // at the end of the program
     freeaddrinfo(this_server_info);
     freeaddrinfo(dns_server_info);
+    close(listen_socket_fd);
 
     return 0;
 }
