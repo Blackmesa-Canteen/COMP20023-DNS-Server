@@ -84,6 +84,8 @@ int main(int argc, char *argv[]) {
             }
             free(unimplemented_response);
 
+            /* reset connections and continue */
+            close(new_socket_fd);
             continue;
         }
 
