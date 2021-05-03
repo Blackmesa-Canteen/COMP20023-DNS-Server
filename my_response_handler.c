@@ -115,8 +115,8 @@ unsigned char* generate_not_implemented_response(dns_message_t *request_message_
     /* assemble response */
     ptr = response;
     unsigned char size_head[2];
-    size_head[0] = (total_response_size + 2) >> 8;
-    size_head[1] = (total_response_size + 2);
+    size_head[0] = (total_response_size) >> 8;
+    size_head[1] = (total_response_size);
     memcpy(ptr, size_head, 2);
     ptr += 2;
     memcpy(ptr, message_header, HEADER_SIZE);

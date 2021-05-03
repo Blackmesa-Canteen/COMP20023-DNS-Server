@@ -95,10 +95,10 @@ int main(int argc, char *argv[]) {
             free(unimplemented_response);
 
             /* reset connections and continue */
-            //close(new_socket_fd);
-            //free_dns_message_ptr(incoming_query_message);
-            //free(domain_name);
-            //continue;
+            close(new_socket_fd);
+            free_dns_message_ptr(incoming_query_message);
+            free(domain_name);
+            continue;
         }
 
         /** if request is AAAA */
