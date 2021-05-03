@@ -5,10 +5,19 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+//#include <sys/socket.h>
+//#include <sys/types.h>
+//#include <netinet/in.h>
+//#include <netinet/tcp.h>
+//#include <arpa/inet.h>
+
 #include "network_handler.h"
 #include "utils.h"
 #include "message_handler.h"
 #include "my_response_handler.h"
+
+#define TRUE 1
+#define FALSE 0
 
 // DNS default port 53
 int main(int argc, char *argv[]) {
@@ -20,7 +29,7 @@ int main(int argc, char *argv[]) {
 
     struct sockaddr_storage client_addr;
     socklen_t client_addr_size;
-    int new_socket_fd;
+    int new_socket_fd = -1;
     int n;
 
     if (argc < 3) {
@@ -42,10 +51,15 @@ int main(int argc, char *argv[]) {
         /** Use real request from client */
         // Get back a new file descriptor to communicate on
         client_addr_size = sizeof client_addr;
-        new_socket_fd = accept(listen_socket_fd, (struct sockaddr*)&client_addr, &client_addr_size);
-        if(new_socket_fd < 0) {
-            perror("accept from client");
-            exit(EXIT_FAILURE);
+
+        // judge the socket status
+        // if the socket is closed by client, we can create new socket, else, we use the old socket
+        if(IsSocketClosed(new_socket_fd)) {
+            new_socket_fd = accept(listen_socket_fd, (struct sockaddr*)&client_addr, &client_addr_size);
+            if(new_socket_fd < 0) {
+                perror("accept from client");
+                exit(EXIT_FAILURE);
+            }
         }
 
         /** Get Query message */
@@ -85,7 +99,12 @@ int main(int argc, char *argv[]) {
             free(unimplemented_response);
 
             /* reset connections and continue */
-            close(new_socket_fd);
+
+            // we shouldn't unilaterally close customer's connection？
+            // check whether the client closed the connection
+            if(IsSocketClosed(new_socket_fd)) {
+                close(new_socket_fd);
+            }
             continue;
         }
 
@@ -169,7 +188,9 @@ int main(int argc, char *argv[]) {
         }
 
         /* close client and dns fd */
-        close(new_socket_fd);
+        if(IsSocketClosed(new_socket_fd)) {
+            close(new_socket_fd);
+        }
         close(dns_socket_fd);
 
         /**

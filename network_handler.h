@@ -10,4 +10,5 @@ struct addrinfo* get_this_server_info(char* port);
 int get_dns_connection(struct addrinfo *dns_server_info);
 void forward_domin_request(int dns_sockfd, const unsigned char* original_query, int message_size);
 unsigned char* get_domin_result(int dns_sockfd);
+int IsSocketClosed(int clientSocket);
 #endif //COMP30023_2021_PROJECT_2_MASTER_NETWORK_HANDLER_H
