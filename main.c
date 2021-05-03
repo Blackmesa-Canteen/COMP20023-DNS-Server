@@ -166,19 +166,15 @@ int main(int argc, char *argv[]) {
 
         } else if (type_list != NULL && type_list[0] != 28) {
             /** If the ﬁrst answer in the response is not a AAAA ﬁeld,  then do not print a log entry (for any answer in the response) */
-            int response_size = 0;
-            unsigned char* unimplemented_response = generate_not_implemented_response(incoming_query_message, &response_size);
-            // do forwarding the response to the client
-            printf("non-AAAA answer, write back unimplemented to client\n");
-            n = write(new_socket_fd, unimplemented_response, response_size + 2);
+            printf("write back not AAAA-first DNS answer to client without log \n");
+            n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
             if (n < 0) {
-                perror("write non-AAAA unimplemented answer");
+                perror("write");
                 exit(EXIT_FAILURE);
             }
-            free(unimplemented_response);
+
         } else {
             /** If no answer at all, just forward the response, no log */
-            // do forwarding the response to the client
             // do forwarding the response to the client
             printf("write back empty-answer upper DNS answer to client\n");
             n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
