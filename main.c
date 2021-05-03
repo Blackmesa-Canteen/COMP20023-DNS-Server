@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     }
 
     /** get address information */
-    printf("DNS：%s, %s\n",argv[1], argv[2] );
+    printf("DNS：%s, %s\n", argv[1], argv[2]);
     dns_server_info = get_dns_server_info(argv[1], argv[2]);
     this_server_info = get_this_server_info(port_number);
 
@@ -47,25 +47,21 @@ int main(int argc, char *argv[]) {
     /* reused listening socket */
     listen_socket_fd = get_listening_socket_fd(this_server_info);
 
-    for(;;) {
+    for (;;) {
         /** Use real request from client */
         // Get back a new file descriptor to communicate on
         client_addr_size = sizeof client_addr;
 
-        // judge the socket status
-        // if the socket is closed by client, we can create new socket, else, we use the old socket
-        if(IsSocketClosed(new_socket_fd)) {
-            new_socket_fd = accept(listen_socket_fd, (struct sockaddr*)&client_addr, &client_addr_size);
-            if(new_socket_fd < 0) {
-                perror("accept from client");
-                exit(EXIT_FAILURE);
-            }
+        new_socket_fd = accept(listen_socket_fd, (struct sockaddr *) &client_addr, &client_addr_size);
+        if (new_socket_fd < 0) {
+            perror("accept from client");
+            exit(EXIT_FAILURE);
         }
 
         /** Get Query message */
         int query_type;
         /* need to be freed */
-        unsigned char* domain_name;
+        unsigned char *domain_name;
 
         dns_message_t *incoming_query_message = get_dns_message_ptr(new_socket_fd);
 
@@ -87,8 +83,8 @@ int main(int argc, char *argv[]) {
              * We need send our own response now, after send the response, continue the great loop
              * */
             int message_size = 0;
-            unsigned char* unimplemented_response = generate_not_implemented_response(incoming_query_message, &message_size);
-
+            unsigned char *unimplemented_response = generate_not_implemented_response(incoming_query_message,
+                                                                                      &message_size);
             // do sending
             printf("write back unimplemented response \n");
             n = write(new_socket_fd, unimplemented_response, (message_size + 2));
@@ -99,13 +95,7 @@ int main(int argc, char *argv[]) {
             free(unimplemented_response);
 
             /* reset connections and continue */
-
-            // we shouldn't unilaterally close customer's connection？
-            // check whether the client closed the connection
-            if(IsSocketClosed(new_socket_fd)) {
-                close(new_socket_fd);
-                new_socket_fd = -1;
-            }
+            close(new_socket_fd);
             continue;
         }
 
@@ -127,7 +117,7 @@ int main(int argc, char *argv[]) {
          */
         // send message to real DNS server
         n = write(dns_socket_fd, incoming_query_message->original_msg, incoming_query_message->msg_size + 2);
-        if(n < 0) {
+        if (n < 0) {
             perror("send to DNS server socket error");
             exit(EXIT_FAILURE);
         }
@@ -138,9 +128,9 @@ int main(int argc, char *argv[]) {
         dns_message_t *dns_response_message = get_dns_message_ptr(dns_socket_fd);
 
         /* get answer info list */
-        char* *ip_text_list = NULL;
-        int* type_list = NULL;
-        int* size_list = NULL;
+        char **ip_text_list = NULL;
+        int *type_list = NULL;
+        int *size_list = NULL;
         int answer_num = 0;
 
         parse_dns_response_message_ptr(dns_response_message, &answer_num, &ip_text_list, &type_list, &size_list);
@@ -148,7 +138,7 @@ int main(int argc, char *argv[]) {
         /**
          * judge the first answer type
          * */
-        if(type_list != NULL && type_list[0] == 28) {
+        if (type_list != NULL && type_list[0] == 28) {
             /**if the field is ipv6(AAAA) */
             char log_string[256] = "";
             strcat(log_string, (char *) domain_name);
@@ -185,10 +175,7 @@ int main(int argc, char *argv[]) {
         }
 
         /* close client and dns fd */
-        if(IsSocketClosed(new_socket_fd)) {
-            close(new_socket_fd);
-            new_socket_fd = -1;
-        }
+        close(new_socket_fd);
         close(dns_socket_fd);
 
         /**
@@ -197,7 +184,7 @@ int main(int argc, char *argv[]) {
         free_dns_message_ptr(incoming_query_message);
         free_dns_message_ptr(dns_response_message);
         free(domain_name);
-        for(int ii = 0; ii < answer_num; ii++) {
+        for (int ii = 0; ii < answer_num; ii++) {
             free(ip_text_list[ii]);
             ip_text_list[ii] = NULL;
 
