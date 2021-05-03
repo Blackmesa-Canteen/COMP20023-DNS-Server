@@ -96,8 +96,8 @@ int main(int argc, char *argv[]) {
 
             /* reset connections and continue */
             //close(new_socket_fd);
-            free_dns_message_ptr(incoming_query_message);
-            free(domain_name);
+            //free_dns_message_ptr(incoming_query_message);
+            //free(domain_name);
             //continue;
         }
 
@@ -115,7 +115,6 @@ int main(int argc, char *argv[]) {
         /**
          * Use real response from DNS server
          * example: 8.8.8.8 53
-         *
          */
         // send message to real DNS server
         n = write(dns_socket_fd, incoming_query_message->original_msg, incoming_query_message->msg_size + 2);
