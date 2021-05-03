@@ -68,6 +68,11 @@ int main(int argc, char *argv[]) {
         /* parse the request message*/
         parse_dns_request_message_ptr(incoming_query_message, &query_type, &domain_name);
 
+        // do log
+        char log_str[256] = "requested ";
+        strcat(log_str, (char *) domain_name);
+        doLog(log_str);
+
         /**
          * if original_query is not AAAA, do not send to DNS
          */
@@ -103,11 +108,6 @@ int main(int argc, char *argv[]) {
         // forward to DNS server, then get query result
         /* create dns socket */
         dns_socket_fd = get_dns_connection(dns_server_info);
-
-        // do log
-        char log_str[256] = "requested ";
-        strcat(log_str, (char *) domain_name);
-        doLog(log_str);
 
         // do forwarding:
         /**
