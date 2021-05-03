@@ -177,8 +177,8 @@ int main(int argc, char *argv[]) {
         }
 
         /* close client and dns fd */
-        close(new_socket_fd);
-        close(dns_socket_fd);
+//        close(new_socket_fd);
+//        close(dns_socket_fd);
 
         /**
          * Free things for one query session
