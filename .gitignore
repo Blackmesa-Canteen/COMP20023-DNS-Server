@@ -5,3 +5,5 @@ phase1.exe
 vgcore.*
 /cmake-build-debug/
 CMakeLists.txt
+/visible/
+/packets/
