@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
             }
             free(unimplemented_response);
 
-            // continue;
+            continue;
         }
 
         /** if request is AAAA */
@@ -187,7 +187,6 @@ int main(int argc, char *argv[]) {
         type_list = NULL;
         free(size_list);
         size_list = NULL;
-
     }
 
     // at the end of the program
