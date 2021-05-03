@@ -30,6 +30,7 @@ int get_listening_socket_fd(struct addrinfo *this_server_info) {
         perror("listen setsockopt");
         exit(EXIT_FAILURE);
     }
+
     // Bind address to the socket
     if (bind(listen_socket_fd, this_server_info->ai_addr, this_server_info->ai_addrlen) < 0) {
         perror("listen bind");
