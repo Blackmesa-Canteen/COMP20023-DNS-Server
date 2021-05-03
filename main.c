@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
             //close(new_socket_fd);
             free_dns_message_ptr(incoming_query_message);
             free(domain_name);
-            continue;
+            //continue;
         }
 
         /** if request is AAAA */
@@ -177,8 +177,8 @@ int main(int argc, char *argv[]) {
         }
 
         /* close client and dns fd */
-//        close(new_socket_fd);
-//        close(dns_socket_fd);
+        close(new_socket_fd);
+        close(dns_socket_fd);
 
         /**
          * Free things for one query session
