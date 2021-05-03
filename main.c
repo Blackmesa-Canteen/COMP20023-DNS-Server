@@ -104,6 +104,7 @@ int main(int argc, char *argv[]) {
             // check whether the client closed the connection
             if(IsSocketClosed(new_socket_fd)) {
                 close(new_socket_fd);
+                new_socket_fd = -1;
             }
             continue;
         }
@@ -190,6 +191,7 @@ int main(int argc, char *argv[]) {
         /* close client and dns fd */
         if(IsSocketClosed(new_socket_fd)) {
             close(new_socket_fd);
+            new_socket_fd = -1;
         }
         close(dns_socket_fd);
 
