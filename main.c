@@ -19,6 +19,8 @@
 #define TRUE 1
 #define FALSE 0
 
+#define NONBLOCKING
+
 void
 Handle_non_AAAA_request(int new_socket_fd, dns_message_t *incoming_query_message, fd_set *masterfds);
 
