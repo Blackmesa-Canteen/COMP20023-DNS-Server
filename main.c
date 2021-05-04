@@ -9,7 +9,7 @@
 //#include <sys/types.h>
 //#include <netinet/in.h>
 //#include <netinet/tcp.h>
-//#include <arpa/inet.h>
+#include <arpa/inet.h>
 
 #include "network_handler.h"
 #include "utils.h"
@@ -19,13 +19,19 @@
 #define TRUE 1
 #define FALSE 0
 
+void
+Handle_non_AAAA_request(int new_socket_fd, dns_message_t *incoming_query_message);
+
+void Handle_AAAA_request(struct addrinfo *dns_server_info, int new_socket_fd, unsigned char *domain_name,
+                         dns_message_t *incoming_query_message);
+
 // DNS default port 53
 int main(int argc, char *argv[]) {
 
     // this server's listening port
     char *port_number = "8053";
     struct addrinfo *dns_server_info, *this_server_info;
-    int listen_socket_fd, dns_socket_fd;
+    int listen_socket_fd;
 
     struct sockaddr_storage client_addr;
     socklen_t client_addr_size;
@@ -42,16 +48,78 @@ int main(int argc, char *argv[]) {
     dns_server_info = get_dns_server_info(argv[1], argv[2]);
     this_server_info = get_this_server_info(port_number);
 
-
-    /** create socket file descriptors */
     /* reused listening socket */
     listen_socket_fd = get_listening_socket_fd(this_server_info);
 
+    /* initialise an active file descriptors set */
+    fd_set masterfds;
+    FD_ZERO(&masterfds);
+    FD_SET(listen_socket_fd, &masterfds);
+    /* record the maximum socket number */
+    int maxfd = listen_socket_fd;
+
     for (;;) {
-        /** Use real request from client */
+
+        /**
+         * Code from Practical 10's select-server-1.2 C
+         */
+        fd_set readfds = masterfds;
+        if (select(FD_SETSIZE, &readfds, NULL, NULL, NULL) < 0) {
+            perror("select");
+            exit(EXIT_FAILURE);
+        }
+
+        // loop all possible descriptor
+        for (int i = 0; i <= maxfd; ++i){
+            // determine if the current file descriptor is active
+            if (FD_ISSET(i, &readfds)) {
+                // create new socket if there is new incoming connection request
+                if (i == listen_socket_fd) {
+                    struct sockaddr_in cliaddr;
+                    socklen_t clilen = sizeof(cliaddr);
+                    int newsockfd =
+                            accept(listen_socket_fd, (struct sockaddr*)&cliaddr, &clilen);
+                    if (newsockfd < 0)
+                        perror("accept the listening fd");
+                    else {
+                        // add the valid new coming socket to the set
+                        FD_SET(newsockfd, &masterfds);
+                        // update the maximum tracker
+                        if (newsockfd > maxfd)
+                            maxfd = newsockfd;
+                        // print out the IP and the socket number
+                        char ip[INET_ADDRSTRLEN];
+                        printf("new connection from %s on socket %d\n",
+                                // convert to human readable string
+                               inet_ntop(cliaddr.sin_family, &cliaddr.sin_addr,
+                                         ip, INET_ADDRSTRLEN),
+                               newsockfd);
+                    }
+                }
+                    // a message is sent from the client
+                else {
+                    char buff[256];
+                    int n = read(i, buff, 256);
+                    if (n <= 0) {
+                        if (n < 0)
+                            perror("read");
+                        else
+                            printf("socket %d close the connection\n", i);
+                        close(i);
+                        FD_CLR(i, &masterfds);
+                    }
+                        // write back to the client
+                    else if (write(i, buff, n) < 0) {
+                        perror("write");
+                        close(i);
+                        FD_CLR(i, &masterfds);
+                    }
+                }
+            }
+        }
+
         // Get back a new file descriptor to communicate on
         client_addr_size = sizeof client_addr;
-
         new_socket_fd = accept(listen_socket_fd, (struct sockaddr *) &client_addr, &client_addr_size);
         if (new_socket_fd < 0) {
             perror("accept from client");
@@ -73,130 +141,22 @@ int main(int argc, char *argv[]) {
         strcat(log_str, (char *) domain_name);
         doLog(log_str);
 
-        /**
+        /*
          * if original_query is not AAAA, do not send to DNS
          */
         if (query_type != 28) {
-            // if first query is not AAAA
-            // we respond with Rcode 4 (“Not Implemented”) by our own
-            // and log “<timestamp> unimplemented request”
-            printf("not AAAA request\n");
-            // find the RCODE part
-            doLog("unimplemented request");
 
-            /**
-             * We need send our own response now, after send the response, continue the great loop
-             * */
-            int message_size = 0;
-            unsigned char *unimplemented_response = generate_not_implemented_response(incoming_query_message,
-                                                                                      &message_size);
-            // do sending
-            printf("write back unimplemented response \n");
-            n = write(new_socket_fd, unimplemented_response, (message_size + 2));
-            if (n < 0) {
-                perror("write");
-                exit(EXIT_FAILURE);
-            }
-            free(unimplemented_response);
-
-            /* reset connections and continue */
-            close(new_socket_fd);
-            free_dns_message_ptr(incoming_query_message);
+            Handle_non_AAAA_request(new_socket_fd, incoming_query_message);
             free(domain_name);
             continue;
         }
 
         /** if request is AAAA */
-        // log, then forward to DNS server, then get query result
+        Handle_AAAA_request(dns_server_info,
+                            new_socket_fd,
+                            domain_name,
+                            incoming_query_message);
 
-        /* create dns socket */
-        dns_socket_fd = get_dns_connection(dns_server_info);
-
-        // do forwarding:
-        /**
-         * Use real response from DNS server
-         * example: 8.8.8.8 53
-         */
-        // send message to real DNS server
-        n = write(dns_socket_fd, incoming_query_message->original_msg, incoming_query_message->msg_size + 2);
-        if (n < 0) {
-            perror("send to DNS server socket error");
-            exit(EXIT_FAILURE);
-        }
-
-        /**
-         * Get DNS server's response
-         */
-        dns_message_t *dns_response_message = get_dns_message_ptr(dns_socket_fd);
-
-        /* get answer info list */
-        char **ip_text_list = NULL;
-        int *type_list = NULL;
-        int *size_list = NULL;
-        int answer_num = 0;
-
-        parse_dns_response_message_ptr(dns_response_message, &answer_num, &ip_text_list, &type_list, &size_list);
-
-        /**
-         * judge the first answer type
-         * */
-        if (type_list != NULL && type_list[0] == 28) {
-            /**if the field is ipv6(AAAA) */
-            char log_string[256] = "";
-            strcat(log_string, (char *) domain_name);
-            strcat(log_string, " is at ");
-            strcat(log_string, ip_text_list[0]);
-            doLog(log_string);
-
-            // do forwarding the response to the client
-            printf("write back upper DNS answer to client\n");
-            n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
-            if (n < 0) {
-                perror("write");
-                exit(EXIT_FAILURE);
-            }
-
-        } else if (type_list != NULL && type_list[0] != 28) {
-            /** If the ﬁrst answer in the response is not a AAAA ﬁeld,  then do not print a log entry (for any answer in the response) */
-            printf("write back not AAAA-first DNS answer to client without log \n");
-            n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
-            if (n < 0) {
-                perror("write");
-                exit(EXIT_FAILURE);
-            }
-
-        } else {
-            /** If no answer at all, just forward the response, no log */
-            // do forwarding the response to the client
-            printf("write back empty-answer upper DNS answer to client\n");
-            n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
-            if (n < 0) {
-                perror("write");
-                exit(EXIT_FAILURE);
-            }
-        }
-
-        /* close client and dns fd */
-        close(new_socket_fd);
-        close(dns_socket_fd);
-
-        /**
-         * Free things for one query session
-         */
-        free_dns_message_ptr(incoming_query_message);
-        free_dns_message_ptr(dns_response_message);
-        free(domain_name);
-        for (int ii = 0; ii < answer_num; ii++) {
-            free(ip_text_list[ii]);
-            ip_text_list[ii] = NULL;
-
-        }
-        free(ip_text_list);
-        ip_text_list = NULL;
-        free(type_list);
-        type_list = NULL;
-        free(size_list);
-        size_list = NULL;
     }
 
     // at the end of the program
@@ -205,4 +165,125 @@ int main(int argc, char *argv[]) {
     close(listen_socket_fd);
 
     return 0;
+}
+
+void
+Handle_AAAA_request(struct addrinfo *dns_server_info, int new_socket_fd, unsigned char *domain_name,
+                         dns_message_t *incoming_query_message) {
+
+    /* create dns socket */
+    int dns_socket_fd = get_dns_connection(dns_server_info);
+    int n;
+    // do forwarding:
+    /*
+     * Use real response from DNS server
+     * example: 8.8.8.8 53
+     */
+    // send message to real DNS server
+    n = write(dns_socket_fd, incoming_query_message->original_msg, incoming_query_message->msg_size + 2);
+    if (n < 0) {
+        perror("send to DNS server socket error");
+        exit(EXIT_FAILURE);
+    }
+
+    /*
+     * Get DNS server's response
+     */
+    dns_message_t *dns_response_message = get_dns_message_ptr(dns_socket_fd);
+
+    /* get answer info list */
+    char **ip_text_list = NULL;
+    int *type_list = NULL;
+    int *size_list = NULL;
+    int answer_num = 0;
+
+    parse_dns_response_message_ptr(dns_response_message, &answer_num, &ip_text_list, &type_list, &size_list);
+
+    /*
+    * judge the first answer type
+    * */
+    if (type_list != NULL && type_list[0] == 28) {
+        /**if the field is ipv6(AAAA) */
+        char log_string[256] = "";
+        strcat(log_string, (char *) domain_name);
+        strcat(log_string, " is at ");
+        strcat(log_string, ip_text_list[0]);
+        doLog(log_string);
+
+        // do forwarding the response to the client
+        printf("write back upper DNS answer to client\n");
+        n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
+        if (n < 0) {
+            perror("write");
+            exit(EXIT_FAILURE);
+        }
+
+    } else if (type_list != NULL && type_list[0] != 28) {
+        /* If the ﬁrst answer in the response is not a AAAA ﬁeld,
+         * then do not print a log entry (for any answer in the response) */
+        printf("write back not AAAA-first DNS answer to client without log \n");
+        n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
+        if (n < 0) {
+            perror("write");
+            exit(EXIT_FAILURE);
+        }
+
+    } else {
+        /* If no answer at all, just forward the response, no log */
+        // do forwarding the response to the client
+        printf("write back empty-answer upper DNS answer to client\n");
+        n = write(new_socket_fd, dns_response_message->original_msg, dns_response_message->msg_size + 2);
+        if (n < 0) {
+            perror("write");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    /* close client and dns fd */
+    close(new_socket_fd);
+    close(dns_socket_fd);
+
+    /*
+     * Free things for one query session
+     */
+    free_dns_message_ptr(incoming_query_message);
+    free_dns_message_ptr(dns_response_message);
+    free(domain_name);
+    for (int ii = 0; ii < answer_num; ii++) {
+        free(ip_text_list[ii]);
+        ip_text_list[ii] = NULL;
+
+    }
+    free(ip_text_list);
+    ip_text_list = NULL;
+    free(type_list);
+    type_list = NULL;
+    free(size_list);
+    size_list = NULL;
+}
+
+void
+Handle_non_AAAA_request(int new_socket_fd, dns_message_t *incoming_query_message) {
+    // if first query is not AAAA
+    // we respond with Rcode 4 (“Not Implemented”) by our own, and log “<timestamp> unimplemented request”
+    printf("not AAAA request\n");
+    // find the RCODE part
+    doLog("unimplemented request");
+
+    /* We need send our own response now, after send the response*/
+    int message_size = 0;
+    unsigned char *unimplemented_response = generate_not_implemented_response(incoming_query_message,
+                                                                              &message_size);
+    // do sending
+    printf("write back unimplemented response \n");
+    int n = write(new_socket_fd, unimplemented_response, (message_size + 2));
+    if (n < 0) {
+        perror("write");
+        exit(EXIT_FAILURE);
+    }
+    free(unimplemented_response);
+
+    /* reset connections and continue */
+    close(new_socket_fd);
+    free_dns_message_ptr(incoming_query_message);
 }
