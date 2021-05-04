@@ -33,6 +33,7 @@ my_dns_server_run(struct addrinfo *dns_server_info, int listen_socket_fd, fd_set
         /* Non-blocking can be done using SELECT */
         /* Monitor exceptions */
         fd_set socket_fds = (*active_socket_fd_set);
+        /* if select returns more than 0, exist an active fd */
         if (select(FD_SETSIZE, &socket_fds, NULL, NULL, NULL) < 0) {
             perror("select");
             exit(EXIT_FAILURE);
@@ -40,7 +41,7 @@ my_dns_server_run(struct addrinfo *dns_server_info, int listen_socket_fd, fd_set
 
         /* loop all possible socket fd */
         for (int i = 0; i <= maxfd; ++i){
-            /* check active */
+            /* check fd can R&W or not */
             if (FD_ISSET(i, &socket_fds)) {
                 /* create new socket if there is new incoming connection request */
                 if (i == listen_socket_fd) {
@@ -48,9 +49,9 @@ my_dns_server_run(struct addrinfo *dns_server_info, int listen_socket_fd, fd_set
                     socklen_t clilen = sizeof(client_address_info);
                     int newsockfd =
                             accept(listen_socket_fd, (struct sockaddr*)&client_address_info, &clilen);
-                    if (newsockfd < 0)
+                    if (newsockfd < 0) {
                         perror("accept the listening fd");
-                    else {
+                    } else {
                         /* add the valid new coming socket to the set */
                         FD_SET(newsockfd, active_socket_fd_set);
                         /* update the maximum tracker */
@@ -197,8 +198,10 @@ Handle_AAAA_request(struct addrinfo *dns_server_info, int new_socket_fd, unsigne
     }
 
     /* close client and dns fd */
-    close(new_socket_fd);
-    FD_CLR(new_socket_fd, active_socket_fd_set);
+    if(n > 0) {
+        close(new_socket_fd);
+        FD_CLR(new_socket_fd, active_socket_fd_set);
+    }
     close(dns_socket_fd);
 
     /*
@@ -248,8 +251,10 @@ Handle_non_AAAA_request(int new_socket_fd, dns_message_t *incoming_query_message
     free(unimplemented_response);
 
     /* reset connections and continue */
-    close(new_socket_fd);
-    FD_CLR(new_socket_fd, active_socket_fd_set);
+    if(n > 0) {
+        close(new_socket_fd);
+        FD_CLR(new_socket_fd, active_socket_fd_set);
+    }
     free_dns_message_ptr(incoming_query_message);
 }
 
