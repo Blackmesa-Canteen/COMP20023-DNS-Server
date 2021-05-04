@@ -5,8 +5,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
+#include <errno.h>
 
 #include "network_handler.h"
+
+#define TRUE 1
+#define FALSE 0
 /**
  * set a listening socket fd on a specific port
  * @param port "8053"
@@ -30,6 +34,7 @@ int get_listening_socket_fd(struct addrinfo *this_server_info) {
         perror("listen setsockopt");
         exit(EXIT_FAILURE);
     }
+
     // Bind address to the socket
     if (bind(listen_socket_fd, this_server_info->ai_addr, this_server_info->ai_addrlen) < 0) {
         perror("listen bind");
@@ -190,4 +195,23 @@ unsigned char* get_domin_result(int dns_sockfd) {
     }
 
     return original_response;
+}
+
+int IsSocketClosed(int clientSocket)
+{
+    if(clientSocket == -1) {
+        return TRUE;
+    }
+    char buff[32];
+    int recvBytes = recv(clientSocket, buff, sizeof(buff), MSG_PEEK);
+
+    int sockErr = errno;
+
+    if( recvBytes > 0) //Get data
+        return FALSE;
+
+    if( (recvBytes == -1) && (sockErr == EWOULDBLOCK) ) //No receive data
+        return TRUE;
+
+    return TRUE;
 }

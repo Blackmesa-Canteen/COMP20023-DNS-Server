@@ -37,7 +37,7 @@ int HEADER_SIZE = 12;
  * @param request_message_t_ptr
  * @return complete tcp DNS message with size head
  */
-unsigned char* generate_not_implemented_response(dns_message_t *request_message_t_ptr) {
+unsigned char* generate_not_implemented_response(dns_message_t *request_message_t_ptr, int* message_size) {
     unsigned char* ptr = NULL;
 
     /**
@@ -103,6 +103,7 @@ unsigned char* generate_not_implemented_response(dns_message_t *request_message_
 
     /* get total response byte size except 2 bytes size head for tcp */
     int total_response_size = HEADER_SIZE + TAIL_SIZE + total_question_bytes;
+    *message_size = total_response_size;
 
     /* allocate response: +2 bytes means plus two-byte size header for tcp connection */
     unsigned char* response = (unsigned char*) calloc(total_response_size + 2, sizeof (unsigned char));
@@ -114,8 +115,8 @@ unsigned char* generate_not_implemented_response(dns_message_t *request_message_
     /* assemble response */
     ptr = response;
     unsigned char size_head[2];
-    size_head[0] = (total_response_size + 2) >> 8;
-    size_head[1] = (total_response_size + 2);
+    size_head[0] = (total_response_size) >> 8;
+    size_head[1] = (total_response_size);
     memcpy(ptr, size_head, 2);
     ptr += 2;
     memcpy(ptr, message_header, HEADER_SIZE);
