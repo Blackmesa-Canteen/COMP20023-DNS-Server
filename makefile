@@ -3,10 +3,13 @@
 CC=clang
 COPT=-Wall -Wpedantic -g
 
-dns_svr: main.o message_handler.o my_response_handler.o network_handler.o utils.o
-	$(CC) -o dns_svr main.o message_handler.o my_response_handler.o network_handler.o utils.o
+dns_svr: main.o my_dns_server_behaviour.o message_handler.o my_response_handler.o network_handler.o utils.o
+	$(CC) -o dns_svr main.o my_dns_server_behaviour.o message_handler.o my_response_handler.o network_handler.o utils.o
 
-main.o: main.c my_response_handler.h message_handler.h network_handler.h utils.h
+my_dns_server_behaviour.o: my_dns_server_behaviour.c network_handler.h utils.h message_handler.h my_response_handler.h my_dns_server_behaviour.h
+	$(CC) -c -Wall my_dns_server_behaviour.c
+
+main.o: main.c network_handler.h my_dns_server_behaviour.h
 	$(CC) -c -Wall main.c
 
 my_response_handler.o: my_response_handler.c my_response_handler.h message_handler.h
