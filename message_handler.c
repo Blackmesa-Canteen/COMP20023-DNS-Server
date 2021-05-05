@@ -24,6 +24,8 @@ dns_message_t *get_dns_message_ptr(int fd) {
     /**
      * Get message Size
      * */
+     int receive_counter = 0;
+
     // make a buffer to contain all info
     unsigned char *buffer = (unsigned char *) calloc(2048, sizeof(unsigned char));
     if(buffer == NULL) {
@@ -36,6 +38,8 @@ dns_message_t *get_dns_message_ptr(int fd) {
         perror("read dns_head_buffer_error");
         exit(EXIT_FAILURE);
     }
+
+    receive_counter = n;
 
     // size_head_buffer for first two bytes
     unsigned char *size_head_buffer = (unsigned char *) calloc(2, sizeof(unsigned char));
@@ -56,6 +60,12 @@ dns_message_t *get_dns_message_ptr(int fd) {
     int message_size = (size_head_buffer[0] << 8 | size_head_buffer[1]);
 
     printf("message size(except 2-byte head): %d\n", message_size);
+
+    /* if the read is not complete */
+    while(receive_counter < message_size + 2) {
+        n = read(fd, &buffer[receive_counter], 2048 - receive_counter);
+        receive_counter += n;
+    }
 
     /**
      * Handle message
