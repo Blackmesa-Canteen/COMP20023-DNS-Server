@@ -15,6 +15,8 @@
 #define TRUE 1
 #define FALSE 0
 
+#define TEMP_SIZE 2048
+
 /**
  * read from socket file descriptor, get dns_message struct
  * @param fd socket fd
@@ -24,21 +26,23 @@ dns_message_t *get_dns_message_ptr(int fd) {
     /**
      * Get message Size
      * */
+
+    /* counter for bytes that read() has received */
      int receive_counter = 0;
 
-    // make a buffer to contain all info
-    unsigned char *buffer = (unsigned char *) calloc(2048, sizeof(unsigned char));
-    if(buffer == NULL) {
-        perror("buffer");
+    /* make a temp_buffer to contain first incoming packet */
+    /* temp_buffer is temporary used, we will use the suitable size in the head later  */
+    unsigned char *temp_buffer = (unsigned char *) calloc(TEMP_SIZE, sizeof(unsigned char));
+    if(temp_buffer == NULL) {
+        perror("temp_buffer");
         exit(EXIT_FAILURE);
     }
     // read all from fd
-    int n = read(fd, buffer, 2048);
+    int n = read(fd, temp_buffer, 2048);
     if (n < 0) {
         perror("read dns_head_buffer_error");
         exit(EXIT_FAILURE);
     }
-
     receive_counter = n;
 
     // size_head_buffer for first two bytes
@@ -47,23 +51,16 @@ dns_message_t *get_dns_message_ptr(int fd) {
         perror("size_head_buffer");
         exit(EXIT_FAILURE);
     }
-    memcpy(size_head_buffer, buffer, 2);
+    memcpy(size_head_buffer, temp_buffer, 2);
 
-    // read two bytes from fd
-//    int n = read(fd, size_head_buffer, 2);
-//    if (n < 0) {
-//        perror("read dns_head_buffer_error");
-//        exit(EXIT_FAILURE);
-//    }
-
-    // get message_size from binary size_head_buffer
+    /* get message_size from binary size_head_buffer */
     int message_size = (size_head_buffer[0] << 8 | size_head_buffer[1]);
 
     printf("message size(except 2-byte head): %d\n", message_size);
 
-    /* if the read is not complete */
+    /* check whether the read is complete or not */
     while(receive_counter < message_size + 2) {
-        n = read(fd, &buffer[receive_counter], 2048 - receive_counter);
+        n = read(fd, &temp_buffer[receive_counter], TEMP_SIZE - receive_counter);
         receive_counter += n;
     }
 
@@ -82,10 +79,10 @@ dns_message_t *get_dns_message_ptr(int fd) {
 //        perror("read dns_msg_buffer");
 //        exit(EXIT_FAILURE);
 //    }
-    memcpy(incoming_msg_buffer, &buffer[2], message_size);
+    memcpy(incoming_msg_buffer, &temp_buffer[2], message_size);
 
-    /* free the total buffer */
-    free(buffer);
+    /* free the 2048 temp_buffer */
+    free(temp_buffer);
 
     /**
      * Reconstruct original query
