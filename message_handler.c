@@ -24,19 +24,33 @@ dns_message_t *get_dns_message_ptr(int fd) {
     /**
      * Get message Size
      * */
+    // make a buffer to contain all info
+    unsigned char *buffer = (unsigned char *) calloc(2048, sizeof(unsigned char));
+    if(buffer == NULL) {
+        perror("buffer");
+        exit(EXIT_FAILURE);
+    }
+    // read all from fd
+    int n = read(fd, buffer, 2048);
+    if (n < 0) {
+        perror("read dns_head_buffer_error");
+        exit(EXIT_FAILURE);
+    }
+
     // size_head_buffer for first two bytes
     unsigned char *size_head_buffer = (unsigned char *) calloc(2, sizeof(unsigned char));
     if(size_head_buffer == NULL) {
         perror("size_head_buffer");
         exit(EXIT_FAILURE);
     }
+    memcpy(size_head_buffer, buffer, 2);
 
     // read two bytes from fd
-    int n = read(fd, size_head_buffer, 2);
-    if (n < 0) {
-        perror("read dns_head_buffer_error");
-        exit(EXIT_FAILURE);
-    }
+//    int n = read(fd, size_head_buffer, 2);
+//    if (n < 0) {
+//        perror("read dns_head_buffer_error");
+//        exit(EXIT_FAILURE);
+//    }
 
     // get message_size from binary size_head_buffer
     int message_size = (size_head_buffer[0] << 8 | size_head_buffer[1]);
@@ -53,11 +67,15 @@ dns_message_t *get_dns_message_ptr(int fd) {
         perror("incoming_msg_buffer");
         exit(EXIT_FAILURE);
     }
-    n = read(fd, incoming_msg_buffer, message_size);
-    if (n < 0) {
-        perror("read dns_msg_buffer");
-        exit(EXIT_FAILURE);
-    }
+//    n = read(fd, incoming_msg_buffer, message_size);
+//    if (n < 0) {
+//        perror("read dns_msg_buffer");
+//        exit(EXIT_FAILURE);
+//    }
+    memcpy(incoming_msg_buffer, &buffer[2], message_size);
+
+    /* free the total buffer */
+    free(buffer);
 
     /**
      * Reconstruct original query
