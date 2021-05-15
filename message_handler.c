@@ -74,11 +74,7 @@ dns_message_t *get_dns_message_ptr(int fd) {
         perror("incoming_msg_buffer");
         exit(EXIT_FAILURE);
     }
-//    n = read(fd, incoming_msg_buffer, message_size);
-//    if (n < 0) {
-//        perror("read dns_msg_buffer");
-//        exit(EXIT_FAILURE);
-//    }
+
     memcpy(incoming_msg_buffer, &temp_buffer[2], message_size);
 
     /* free the 2048 temp_buffer */

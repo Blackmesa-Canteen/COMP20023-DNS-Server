@@ -42,7 +42,7 @@ int get_listening_socket_fd(struct addrinfo *this_server_info) {
     }
 
     // listen on socket
-    if (listen(listen_socket_fd, 5) < 0) {
+    if (listen(listen_socket_fd, 100) < 0) {
         perror("listen");
         exit(EXIT_FAILURE);
     }
