@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="comp30023_2021_project_2_master"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="comp30023_2021_project_2_master">
+				<Option output="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug/comp30023_2021_project_2_master" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/."/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 comp30023_2021_project_2_master"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="comp30023_2021_project_2_master/fast">
+				<Option output="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug/comp30023_2021_project_2_master" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/."/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 comp30023_2021_project_2_master/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer\ systems/projects/project\ 2/comp30023-2021-project-2-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/main.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/message_handler.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/message_handler.h">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/my_dns_server_behaviour.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/my_dns_server_behaviour.h">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/my_response_handler.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/my_response_handler.h">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/network_handler.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/network_handler.h">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/phase1.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/utils.c">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/utils.h">
+			<Option target="comp30023_2021_project_2_master"/>
+		</Unit>
+		<Unit filename="/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
