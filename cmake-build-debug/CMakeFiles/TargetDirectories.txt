@@ -1,0 +1,3 @@
+/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/shaotienlee/Desktop/Study/Courses/semster-2/Computer systems/projects/project 2/comp30023-2021-project-2-master/cmake-build-debug/CMakeFiles/comp30023_2021_project_2_master.dir

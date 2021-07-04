@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="comp30023_2021_project_2_master" targetName="comp30023_2021_project_2_master" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0de957ae-5cc0-4798-828d-cd56d40906d2" name="Default Changelist" comment="change listen backlog number to 100" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="use-cache" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1rjlQ5LdY0pzTndGwqp8Xq5UlwK" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/cmake-build-debug" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="comp30023_2021_project_2_master" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="8.8.8.8 53" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="comp30023_2021_project_2_master" TARGET_NAME="comp30023_2021_project_2_master" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="comp30023_2021_project_2_master" RUN_TARGET_NAME="comp30023_2021_project_2_master">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0de957ae-5cc0-4798-828d-cd56d40906d2" name="Default Changelist" comment="" />
+      <created>1619497361853</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619497361853</updated>
+      <workItem from="1619497363790" duration="471000" />
+      <workItem from="1619533252778" duration="12454000" />
+      <workItem from="1619659067633" duration="9007000" />
+      <workItem from="1619674856363" duration="1599000" />
+      <workItem from="1619677492260" duration="333000" />
+      <workItem from="1619710411514" duration="3355000" />
+      <workItem from="1619745710904" duration="746000" />
+      <workItem from="1619746952175" duration="11675000" />
+      <workItem from="1619761776407" duration="12356000" />
+      <workItem from="1619836146306" duration="3618000" />
+      <workItem from="1619874863712" duration="15130000" />
+      <workItem from="1619923530125" duration="372000" />
+      <workItem from="1619950946342" duration="29000" />
+      <workItem from="1619952434767" duration="1123000" />
+      <workItem from="1619955162223" duration="4392000" />
+      <workItem from="1619969163709" duration="67000" />
+      <workItem from="1620005752183" duration="7667000" />
+      <workItem from="1620014298806" duration="171000" />
+      <workItem from="1620014934710" duration="3963000" />
+      <workItem from="1620019305740" duration="3425000" />
+      <workItem from="1620034281810" duration="12794000" />
+      <workItem from="1620059372026" duration="156000" />
+      <workItem from="1620059949219" duration="1304000" />
+      <workItem from="1620091300998" duration="7943000" />
+      <workItem from="1620100192754" duration="62000" />
+      <workItem from="1620110306501" duration="58000" />
+      <workItem from="1620137880218" duration="4384000" />
+      <workItem from="1620183937140" duration="4089000" />
+      <workItem from="1620195076680" duration="53000" />
+      <workItem from="1620195145770" duration="59000" />
+      <workItem from="1620205633803" duration="480000" />
+      <workItem from="1620207840410" duration="46000" />
+      <workItem from="1620291277024" duration="830000" />
+      <workItem from="1620359880763" duration="8000" />
+      <workItem from="1620359892786" duration="308000" />
+      <workItem from="1620442375847" duration="483000" />
+      <workItem from="1620713785909" duration="586000" />
+      <workItem from="1620822080886" duration="491000" />
+      <workItem from="1620876643104" duration="429000" />
+      <workItem from="1621070730324" duration="436000" />
+      <workItem from="1621926454553" duration="136000" />
+      <workItem from="1622256563923" duration="244000" />
+      <workItem from="1624258475388" duration="56000" />
+    </task>
+    <task id="LOCAL-00001" summary="first set up files">
+      <created>1619497654965</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1619497654965</updated>
+    </task>
+    <task id="LOCAL-00002" summary="first set up files">
+      <created>1619497661344</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1619497661344</updated>
+    </task>
+    <task id="LOCAL-00003" summary="set up basic framework">
+      <created>1619576707420</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1619576707420</updated>
+    </task>
+    <task id="LOCAL-00004" summary="we can query customer's dns query">
+      <created>1619667147817</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1619667147817</updated>
+    </task>
+    <task id="LOCAL-00005" summary="back up">
+      <created>1619756514855</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1619756514855</updated>
+    </task>
+    <task id="LOCAL-00006" summary="after module the network functions">
+      <created>1619756730012</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1619756730012</updated>
+    </task>
+    <task id="LOCAL-00007" summary="back up of original parsing program">
+      <created>1619758267062</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1619758267062</updated>
+    </task>
+    <task id="LOCAL-00008" summary="achieved address parsing">
+      <created>1619776317577</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1619776317577</updated>
+    </task>
+    <task id="LOCAL-00009" summary="managed to get information from real DNS server">
+      <created>1619837690728</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1619837690728</updated>
+    </task>
+    <task id="LOCAL-00010" summary="solved mem leakage of addrinfo">
+      <created>1619838805051</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1619838805051</updated>
+    </task>
+    <task id="LOCAL-00011" summary="can generate not implemented response">
+      <created>1619885889039</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1619885889039</updated>
+    </task>
+    <task id="LOCAL-00012" summary="write makefile">
+      <created>1619962272918</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1619962272918</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update makefile">
+      <created>1619963001758</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1619963001758</updated>
+    </task>
+    <task id="LOCAL-00014" summary="remove unused attributes">
+      <created>1619963845710</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1619963845710</updated>
+    </task>
+    <task id="LOCAL-00015" summary="change some format in main.c">
+      <created>1620005832447</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1620005832447</updated>
+    </task>
+    <task id="LOCAL-00016" summary="finished standard socket">
+      <created>1620009501148</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1620009501148</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Ran `chmod a-x` to make some files into non-executable file">
+      <created>1620009903891</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1620009903891</updated>
+    </task>
+    <task id="LOCAL-00018" summary="make `makefile` &amp; `phase1.c` files into non-executable file">
+      <created>1620009968539</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1620009968539</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added missing `continue`">
+      <created>1620012384379</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1620012384380</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added missing `continue`">
+      <created>1620012703753</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1620012703753</updated>
+    </task>
+    <task id="LOCAL-00021" summary="check whether the client closes the socket or not">
+      <created>1620018222081</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1620018222081</updated>
+    </task>
+    <task id="LOCAL-00022" summary="deal with closed new_socket_fd bug">
+      <created>1620020281048</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1620020281048</updated>
+    </task>
+    <task id="LOCAL-00023" summary="change behavior when receive not-AAAA-first response">
+      <created>1620029267700</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1620029267700</updated>
+    </task>
+    <task id="LOCAL-00024" summary="the connections are not persistent.">
+      <created>1620037956673</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1620037956673</updated>
+    </task>
+    <task id="LOCAL-00025" summary="change log behavior">
+      <created>1620038367568</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1620038367568</updated>
+    </task>
+    <task id="LOCAL-00026" summary="change log behavior again">
+      <created>1620040159855</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1620040159855</updated>
+    </task>
+    <task id="LOCAL-00027" summary="if don't close the new_socket_fd in the query_type checking">
+      <created>1620040629388</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1620040629388</updated>
+    </task>
+    <task id="LOCAL-00028" summary="if don't close at all">
+      <created>1620040765582</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1620040765582</updated>
+    </task>
+    <task id="LOCAL-00029" summary="if remove continue">
+      <created>1620041018555</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1620041018555</updated>
+    </task>
+    <task id="LOCAL-00030" summary="if remove continue">
+      <created>1620041417074</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1620041417074</updated>
+    </task>
+    <task id="LOCAL-00031" summary="solve `generate_not_implemented_response` 's size head bug">
+      <created>1620057966805</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1620057966805</updated>
+    </task>
+    <task id="LOCAL-00032" summary="changed into new log behavior">
+      <created>1620058352781</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1620058352781</updated>
+    </task>
+    <task id="LOCAL-00033" summary="before import practical 10's code">
+      <created>1620094410385</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1620094410385</updated>
+    </task>
+    <task id="LOCAL-00034" summary="added codes from practical 10">
+      <created>1620097029833</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1620097029833</updated>
+    </task>
+    <task id="LOCAL-00035" summary="test nonblocking">
+      <created>1620097118625</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1620097118625</updated>
+    </task>
+    <task id="LOCAL-00036" summary="updated project structure">
+      <created>1620099335713</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1620099335713</updated>
+    </task>
+    <task id="LOCAL-00037" summary="updated comments">
+      <created>1620142407602</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1620142407602</updated>
+    </task>
+    <task id="LOCAL-00038" summary="add great buffer to try to solve tcp-stream problem">
+      <created>1620185751894</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1620185751894</updated>
+    </task>
+    <task id="LOCAL-00039" summary="add uncomplete checker">
+      <created>1620186767993</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1620186767993</updated>
+    </task>
+    <task id="LOCAL-00040" summary="update some comments">
+      <created>1620187509571</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1620187509571</updated>
+    </task>
+    <task id="LOCAL-00041" summary="change listen backlog number to 100">
+      <created>1621070812204</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1621070812204</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="change some format in main.c" />
+    <MESSAGE value="finished standard socket" />
+    <MESSAGE value="Ran `chmod a-x` to make some files into non-executable file" />
+    <MESSAGE value="make `makefile` &amp; `phase1.c` files into non-executable file" />
+    <MESSAGE value="added missing `continue`" />
+    <MESSAGE value="check whether the client closes the socket or not" />
+    <MESSAGE value="deal with closed new_socket_fd bug" />
+    <MESSAGE value="change behavior when receive not-AAAA-first response" />
+    <MESSAGE value="the connections are not persistent." />
+    <MESSAGE value="change log behavior" />
+    <MESSAGE value="change log behavior again" />
+    <MESSAGE value="if don't close the new_socket_fd in the query_type checking" />
+    <MESSAGE value="if don't close at all" />
+    <MESSAGE value="if remove continue" />
+    <MESSAGE value="solve `generate_not_implemented_response` 's size head bug" />
+    <MESSAGE value="changed into new log behavior" />
+    <MESSAGE value="before import practical 10's code" />
+    <MESSAGE value="added codes from practical 10" />
+    <MESSAGE value="test nonblocking" />
+    <MESSAGE value="updated project structure" />
+    <MESSAGE value="updated comments" />
+    <MESSAGE value="add great buffer to try to solve tcp-stream problem" />
+    <MESSAGE value="add uncomplete checker" />
+    <MESSAGE value="update some comments" />
+    <MESSAGE value="change listen backlog number to 100" />
+    <option name="LAST_COMMIT_MESSAGE" value="change listen backlog number to 100" />
+  </component>
+</project>
